@@ -30,14 +30,11 @@ reacts to **any** Claude Code session, in any project.
 | `idle`     | Claude finished responding                      |
 | `sleeping` | idle for a while / session ended               |
 
-## Important: which Python
+## Python
 
-Your Anaconda Python has a **bundled Qt that conflicts with PyQt6** (`DLL load
-failed ... procedure not found`). This project therefore runs on the clean
-python.org **Python 3.12** at
-`C:\Users\Hunter\AppData\Local\Programs\Python\Python312`. All commands below
-use `py -3.12`. (`set_state.py` is pure stdlib and runs anywhere; only the pet
-window needs PyQt6.)
+Built and tested on **Python 3.12**; the commands below use `py -3.12`.
+(`set_state.py` is pure stdlib and runs anywhere; only the pet window needs
+PyQt6.)
 
 ## Setup
 
