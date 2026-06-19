@@ -1,0 +1,3 @@
+# Install on the clean python.org Python 3.12 (NOT Anaconda):
+#   py -3.12 -m pip install -r requirements.txt
+PyQt6
