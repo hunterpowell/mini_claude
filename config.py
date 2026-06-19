@@ -54,13 +54,12 @@ TOOL_STATE = {
 }
 
 # Map a hook event name to a state (tools are resolved via TOOL_STATE first).
-# PostToolUse is intentionally absent: the pet lingers on the tool's state until
-# the next real action instead of bouncing back to "thinking" between tools.
+# PostToolUse and SubagentStop are intentionally absent: the pet lingers on the
+# tool's state until the next real action instead of bouncing back between tools.
 EVENT_STATE = {
     "UserPromptSubmit": "thinking",
     "Notification": "waiting",
     "Stop": "idle",
-    "SubagentStop": "thinking",
     "SessionStart": "idle",
     "SessionEnd": "sleeping",
 }
