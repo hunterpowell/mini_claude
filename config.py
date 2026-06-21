@@ -5,10 +5,17 @@ session regardless of which project it runs in. Sprites live next to this file
 so the pet always finds them via __file__.
 """
 
+import sys
 from pathlib import Path
 
 # --- Paths -------------------------------------------------------------------
-PROJECT_DIR = Path(__file__).resolve().parent
+# When bundled by PyInstaller, __file__ is inside a temp extraction dir that
+# doesn't contain sprites; use _MEIPASS instead (both pet.exe and set_state.exe
+# set sys.frozen, but only pet.exe actually needs SPRITES_DIR).
+if getattr(sys, 'frozen', False):
+    PROJECT_DIR = Path(sys._MEIPASS)
+else:
+    PROJECT_DIR = Path(__file__).resolve().parent
 SPRITES_DIR = PROJECT_DIR / "sprites"
 
 PET_DIR = Path.home() / ".claude" / "pet"
@@ -66,7 +73,7 @@ EVENT_STATE = {
 
 # --- Animation / window tuning ----------------------------------------------
 FRAME_MS = 180          # ms between sprite frames
-SCALE = 4               # pixel-art upscale factor (nearest-neighbor)
+SCALE = 3               # pixel-art upscale factor (nearest-neighbor)
 POLL_MS = 120           # how often the pet checks the state file
 MIN_DWELL_SEC = 0.6     # min time a state stays visible before the next one
 MAX_QUEUE = 3           # cap pending states so the pet can't lag behind reality

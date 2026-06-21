@@ -12,7 +12,7 @@ import time
 
 from PyQt6.QtCore import Qt, QTimer, QPoint
 from PyQt6.QtGui import QPixmap, QAction, QCursor
-from PyQt6.QtWidgets import QApplication, QLabel, QMenu, QWidget, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QLabel, QMenu, QMessageBox, QWidget, QVBoxLayout
 
 import config
 
@@ -189,7 +189,37 @@ class Pet(QWidget):
         menu.exec(QCursor.pos())
 
 
+def _run_install():
+    import install_hooks
+    from pathlib import Path
+
+    if getattr(sys, 'frozen', False) and "--uninstall" not in sys.argv:
+        set_state = Path(sys.executable).parent / "set_state.exe"
+        if not set_state.exists():
+            app = QApplication(sys.argv)
+            QMessageBox.critical(
+                None, "Claude Pet",
+                f"set_state.exe not found next to pet.exe.\nExpected: {set_state}",
+            )
+            sys.exit(1)
+
+    install_hooks.main()
+    app = QApplication(sys.argv)
+    if "--uninstall" in sys.argv:
+        QMessageBox.information(None, "Claude Pet", "Hooks removed from ~/.claude/settings.json.")
+    else:
+        QMessageBox.information(
+            None, "Claude Pet",
+            "Hooks installed in ~/.claude/settings.json.\n\n"
+            "Restart any open Claude Code sessions to apply.",
+        )
+    sys.exit(0)
+
+
 def main():
+    if "--install" in sys.argv or "--uninstall" in sys.argv:
+        _run_install()
+
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(True)
     pet = Pet()

@@ -16,7 +16,7 @@ import config
 
 SETTINGS = Path.home() / ".claude" / "settings.json"
 SCRIPT = config.PROJECT_DIR / "set_state.py"
-MARKER = "set_state.py"  # how we recognize our own hooks
+MARKER = "set_state"  # matches both set_state.py (dev) and set_state.exe (frozen)
 
 # events the pet listens to; PreToolUse filters on tool name and needs a matcher
 EVENTS = [
@@ -32,7 +32,11 @@ NEEDS_MATCHER = {"PreToolUse"}
 
 
 def command():
-    # use this interpreter explicitly so it works regardless of PATH
+    if getattr(sys, 'frozen', False):
+        # Running as pet.exe --install; set_state.exe lives next to pet.exe.
+        set_state_exe = Path(sys.executable).parent / "set_state.exe"
+        return f'"{set_state_exe}"'
+    # Dev: use this interpreter explicitly so it works regardless of PATH.
     return f'"{sys.executable}" "{SCRIPT}"'
 
 
