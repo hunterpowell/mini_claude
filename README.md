@@ -1,7 +1,7 @@
-# Claude Pet 🐾
+# Mini Claude
 
 A little 8-bit critter that lives in the corner of your screen and plays
-animations reflecting what Claude Code is currently doing — reading files,
+animations reflecting what Claude Code is currently doing; reading files,
 editing, running commands, searching the web, waiting on you, or napping when
 idle.
 
@@ -14,7 +14,7 @@ reacts to **any** Claude Code session, in any project.
   Claude Code event ──hook──> set_state.py ──> ~/.claude/pet/state.json
                                                         │ (watched)
                                                         ▼
-                                                     pet.py  🟠
+                                                     pet.py 
 ```
 
 ## States
